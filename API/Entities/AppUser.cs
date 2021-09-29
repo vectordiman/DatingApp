@@ -37,7 +37,7 @@ namespace API.Entities
 
         public int GetAge()
         {
-            return DateOfBirth.CalculateAge()
+            return DateOfBirth.CalculateAge();
         }
     }
 }
