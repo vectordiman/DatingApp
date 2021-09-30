@@ -23,9 +23,33 @@
       <div class="card-footer">
         <div class="btn-group d-flex">
           <button class="btn btn-primary">Like</button>
-          <button class="btn btn-success">Message</button>
+          <button class="btn btn-info">Message</button>
         </div>
       </div>
     </div>
+  </div>
+  <div class="col-8">
+    <tabset class="member-tabset">
+      <tab heading="About {{member.knownAs}}">
+        <br>
+        <h4>Description</h4>
+        <p>{{member.introduction}}</p>
+        <h4>Looking for</h4>
+        <p>{{member.lookingFor}}</p>
+      </tab>
+      <tab heading="Interests">
+        <br>
+        <h4>Interests</h4>
+        <p>{{member.interests}}</p>
+      </tab>
+      <tab heading="Photos">
+        <br>
+        <p>Photos will go here</p>
+      </tab>
+      <tab heading="Messages">
+        <br>
+        <p>Messages will go here</p>
+      </tab>
+    </tabset>
   </div>
 </div>
