@@ -19,7 +19,7 @@ namespace API.Controllers
     public class UsersController : BaseApiController
     {
         private readonly IUserRepository _userRepository;
-        
+
         private readonly IMapper _mapper;
         private readonly IPhotoService _photoService;
 
@@ -35,8 +35,8 @@ namespace API.Controllers
         {
             return Ok(await _userRepository.GetMembersAsync());
         }
-        
-        [HttpGet("{username}")]
+
+        [HttpGet("{username}", Name = "GetUser")]
         public async Task<ActionResult<MemberDto>> GetUser(string username)
         {
             return await _userRepository.GetMemberAsync(username);
@@ -48,7 +48,7 @@ namespace API.Controllers
             var user = await _userRepository.GetUserByUsernameAsync(User.GetUsername());
 
             _mapper.Map(memberUpdateDto, user);
-            
+
             _userRepository.Update(user);
 
             if (await _userRepository.SaveAllAsync()) return NoContent();
@@ -75,11 +75,13 @@ namespace API.Controllers
             {
                 photo.IsMain = true;
             }
-            
+
             user.Photos.Add(photo);
 
             if (await _userRepository.SaveAllAsync())
-                return _mapper.Map<Photo, PhotoDto>(photo);
+            {
+                return CreatedAtRoute("GetUser", new {username = user.UserName}, _mapper.Map<Photo, PhotoDto>(photo));
+            }
 
             return BadRequest("Problem adding photo");
         }
