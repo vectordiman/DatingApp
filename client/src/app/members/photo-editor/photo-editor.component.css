@@ -11,3 +11,14 @@ img.img-thumbnail {
 input[type=file] {
   color: transparent;
 }
+
+.btn-primary-light {
+  color: white;
+  background-color: hotpink;
+  border-color: hotpink;
+}
+
+.btn-primary-light:hover {
+  background-color: #ff2693;
+  border-color: #ff2693;
+}
