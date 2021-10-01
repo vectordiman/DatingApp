@@ -6,14 +6,16 @@
         [disabled]="photo.isMain"
         (click)="setMainPhoto(photo)"
         [ngClass]='photo.isMain ? "btn-info active" : "btn-outline-info"'
-        class="btn btn-sm"
-      >Main
+        class="btn btn-sm mr-2"
+        style="margin-left: -22px">
+        <i class="fa fa-user-circle"></i>
       </button>
-<!--      <button-->
-<!--        [disabled]="photo.isMain"-->
-<!--        (click)="deletePhoto(photo.id)"-->
-<!--        class="btn btn-sm btn-danger"-->
-<!--      ><i class="fa fa-trash"></i></button>-->
+      <button
+        [disabled]="photo.isMain"
+        (click)="deletePhoto(photo.id)"
+        class="btn btn-sm btn-primary">
+        <i class="fa fa-trash"></i>
+      </button>
     </div>
   </div>
 </div>
