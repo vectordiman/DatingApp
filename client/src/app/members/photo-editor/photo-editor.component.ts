@@ -5,6 +5,8 @@ import {environment} from "../../../environments/environment";
 import {AccountService} from "../../_services/account.service";
 import {User} from "../../_models/user";
 import {take} from "rxjs/operators";
+import {FileItem} from "ng2-file-upload/file-upload/file-item.class";
+import {ParsedResponseHeaders} from "ng2-file-upload/file-upload/file-uploader.class";
 
 @Component({
   selector: 'app-photo-editor',
@@ -45,7 +47,7 @@ export class PhotoEditorComponent implements OnInit {
       file.withCredentials = false;
     }
 
-    this.uploader.onSuccessItem() = (item, response, status, headers) => {
+    this.uploader.onSuccessItem = (item: FileItem, response: string, status: number, headers: ParsedResponseHeaders) => {
       if(response) {
         const photo = JSON.parse(response);
         this.member.photos.push(photo);
