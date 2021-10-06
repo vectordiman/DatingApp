@@ -14,7 +14,7 @@ namespace API.Data
     public class UserRepository : IUserRepository
     {
         private readonly DataContext _context;
-        
+
         private readonly IMapper _mapper;
 
         public UserRepository(DataContext context, IMapper mapper)
@@ -50,10 +50,14 @@ namespace API.Data
 
         public async Task<PagedList<MemberDto>> GetMembersAsync(UserParams userParams)
         {
-            var query = _context.Users
-                .ProjectTo<MemberDto>(_mapper.ConfigurationProvider)
-                .AsNoTracking();
-            return await PagedList<MemberDto>.CreateAsynk(query, userParams.PageNumber, userParams.PageSize);
+            var query = _context.Users.AsQueryable();
+
+            query = query.Where(u => u.UserName != userParams.CurrentUsername);
+            query = query.Where(u => u.Gender == userParams.Gender);
+
+            return await PagedList<MemberDto>.CreateAsynk(
+                query.ProjectTo<MemberDto>(_mapper.ConfigurationProvider).AsNoTracking(), userParams.PageNumber,
+                userParams.PageSize);
         }
 
         public async Task<MemberDto> GetMemberAsync(string username)
