@@ -60,7 +60,7 @@
   <pagination
     [boundaryLinks]="true"
     [totalItems]="pagination.totalItems"
-    [itemsPerPage]="pagination.itemsPerPage"
+    [itemsPerPage]="pagination.itemsPerPage + 4"
     [(ngModel)]="pagination.currentPage"
     (pageChanged)="pageChanged($event)"
     previousText="&lsaquo;"
