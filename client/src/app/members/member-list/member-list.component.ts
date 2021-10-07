@@ -14,10 +14,10 @@ import {User} from "../../_models/user";
   styleUrls: ['./member-list.component.css']
 })
 export class MemberListComponent implements OnInit {
-  members!: Member[];
-  pagination!: Pagination;
-  userParams!: UserParams;
-  user!: User;
+  members: Member[] | undefined;
+  pagination: Pagination | undefined;
+  userParams: UserParams;
+  user: User | undefined;
   genderList = [{value: 'male', display: 'Males'}, {value: 'female', display: 'Females'}]
 
   constructor(private memberService: MembersService) {
