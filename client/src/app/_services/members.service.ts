@@ -21,7 +21,7 @@ export class MembersService {
 
   getMembers(userParams: UserParams) {
     var response = this.memberCache.get(Object.values(userParams).join('-'));
-    if(response) {
+    if (response) {
       return of(response);
     }
 
@@ -39,8 +39,9 @@ export class MembersService {
   }
 
   getMember(username: string | null) {
-    const member = this.members.find(x => x.username === username);
-    if (member !== undefined) return of(member);
+    const member = [...this.memberCache.values()]
+      .reduce((arr, element) => arr.concat(element.result), [])
+      .find((member: Member) => member.username === username);
     return this.http.get<Member>(this.baseUrl + 'users/' + username);
   }
 
