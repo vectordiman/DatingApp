@@ -9,7 +9,7 @@ import {ToastrService} from "ngx-toastr";
   styleUrls: ['./member-card.component.css']
 })
 export class MemberCardComponent implements OnInit {
-  @Input() member!: Member;
+  @Input() member: Member | undefined ;
 
   constructor(private memberService: MembersService, private toastr: ToastrService) { }
 
