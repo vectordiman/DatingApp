@@ -16,7 +16,6 @@ export class MessageService {
     let params = getPaginationHeaders(pageNumber, pageSize);
 
     params = params.append('Container', container);
-    params = params.append('Skip', true);
     return getPaginatedResult<Message[]>(this.baseUrl + 'messages', params, this.http);
   }
 
@@ -26,5 +25,9 @@ export class MessageService {
 
   sendMessage(username: string, content: string) {
     return this.http.post<Message>(this.baseUrl + 'messages', {recipientUsername: username, content}, { headers:{ skip:"true" }})
+  }
+
+  deleteMessage(id: number) {
+    return this.http.delete(this.baseUrl + 'messages/' + id, { headers:{ skip:"true" }});
   }
 }
