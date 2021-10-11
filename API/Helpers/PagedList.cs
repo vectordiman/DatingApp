@@ -26,7 +26,7 @@ namespace API.Helpers
         
         public int TotalCount { get; set; }
 
-        public static async Task<PagedList<T>> CreateAsynk(IQueryable<T> source, int pageNumber,
+        public static async Task<PagedList<T>> CreateAsync(IQueryable<T> source, int pageNumber,
             int pageSize)
         {
             var count = await source.CountAsync();
