@@ -8,7 +8,7 @@ namespace API.Interfaces
 {
     public interface IMessageRepository
     {
-        void AddMessaage(Message message);
+        void AddMessage(Message message);
 
         void DeleteMessage(Message message);
 
