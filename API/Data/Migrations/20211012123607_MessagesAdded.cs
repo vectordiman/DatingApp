@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace API.Data.Migrations
 {
-    public partial class IdentityAdded : Migration
+    public partial class MessagesAdded : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -14,14 +14,6 @@ namespace API.Data.Migrations
             migrationBuilder.DropForeignKey(
                 name: "FK_Likes_Users_SourceUserId",
                 table: "Likes");
-
-            migrationBuilder.DropForeignKey(
-                name: "FK_Messages_Users_RecipientId",
-                table: "Messages");
-
-            migrationBuilder.DropForeignKey(
-                name: "FK_Messages_Users_SenderId",
-                table: "Messages");
 
             migrationBuilder.DropForeignKey(
                 name: "FK_Photos_Users_AppUserId",
@@ -210,6 +202,39 @@ namespace API.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Messages",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    SenderId = table.Column<int>(type: "INTEGER", nullable: false),
+                    SenderUsername = table.Column<string>(type: "TEXT", nullable: true),
+                    RecipientId = table.Column<int>(type: "INTEGER", nullable: false),
+                    RecipientUsername = table.Column<string>(type: "TEXT", nullable: true),
+                    Content = table.Column<string>(type: "TEXT", nullable: true),
+                    DateRead = table.Column<DateTime>(type: "TEXT", nullable: true),
+                    MessageSent = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    SenderDeleted = table.Column<bool>(type: "INTEGER", nullable: false),
+                    RecipientDeleted = table.Column<bool>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Messages", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Messages_AspNetUsers_RecipientId",
+                        column: x => x.RecipientId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Messages_AspNetUsers_SenderId",
+                        column: x => x.SenderId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
                 columns: table => new
                 {
@@ -291,6 +316,16 @@ namespace API.Data.Migrations
                 table: "AspNetUserRoles",
                 column: "RoleId");
 
+            migrationBuilder.CreateIndex(
+                name: "IX_Messages_RecipientId",
+                table: "Messages",
+                column: "RecipientId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Messages_SenderId",
+                table: "Messages",
+                column: "SenderId");
+
             migrationBuilder.AddForeignKey(
                 name: "FK_Likes_AspNetUsers_LikedUserId",
                 table: "Likes",
@@ -306,22 +341,6 @@ namespace API.Data.Migrations
                 principalTable: "AspNetUsers",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Cascade);
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_Messages_AspNetUsers_RecipientId",
-                table: "Messages",
-                column: "RecipientId",
-                principalTable: "AspNetUsers",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Restrict);
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_Messages_AspNetUsers_SenderId",
-                table: "Messages",
-                column: "SenderId",
-                principalTable: "AspNetUsers",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Restrict);
 
             migrationBuilder.AddForeignKey(
                 name: "FK_Photos_AspNetUsers_AppUserId",
@@ -343,14 +362,6 @@ namespace API.Data.Migrations
                 table: "Likes");
 
             migrationBuilder.DropForeignKey(
-                name: "FK_Messages_AspNetUsers_RecipientId",
-                table: "Messages");
-
-            migrationBuilder.DropForeignKey(
-                name: "FK_Messages_AspNetUsers_SenderId",
-                table: "Messages");
-
-            migrationBuilder.DropForeignKey(
                 name: "FK_Photos_AspNetUsers_AppUserId",
                 table: "Photos");
 
@@ -368,6 +379,9 @@ namespace API.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "Messages");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
@@ -471,22 +485,6 @@ namespace API.Data.Migrations
                 principalTable: "Users",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Cascade);
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_Messages_Users_RecipientId",
-                table: "Messages",
-                column: "RecipientId",
-                principalTable: "Users",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Restrict);
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_Messages_Users_SenderId",
-                table: "Messages",
-                column: "SenderId",
-                principalTable: "Users",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Restrict);
 
             migrationBuilder.AddForeignKey(
                 name: "FK_Photos_Users_AppUserId",
