@@ -27,7 +27,8 @@ namespace API.Controllers
                 .OrderBy(u => u.UserName)
                 .Select(u => new
                 {
-                    u.Id, Usename = u.UserName,
+                    u.Id,
+                    Username = u.UserName,
                     Roles = u.UserRoles.Select(r => r.Role.Name).ToList()
                 })
                 .ToListAsync();
@@ -51,7 +52,7 @@ namespace API.Controllers
             if (!result.Succeeded) return BadRequest("Failed to add roles");
 
             result = await _userManager.RemoveFromRolesAsync(user, userRoles.Except(selectedRoles));
-            
+
             if (!result.Succeeded) return BadRequest("Failed to remove from roles");
 
             return Ok(await _userManager.GetRolesAsync(user));
