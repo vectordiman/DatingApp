@@ -6,6 +6,7 @@ import {Message} from "../_models/message";
 import {HubConnection, HubConnectionBuilder} from "@microsoft/signalr";
 import {User} from "../_models/user";
 import {BehaviorSubject} from "rxjs";
+import {take} from "rxjs/operators";
 
 @Injectable({
   providedIn: 'root'
@@ -29,6 +30,12 @@ export class MessageService {
     this.hubConnection.on('ReceiveMessageThread', messages => {
       this.messageThreadSource.next(messages);
     })
+
+    this.hubConnection.on('NewMessage', message => {
+      this.messageThread$.pipe(take(1)).subscribe(messages => {
+        this.messageThreadSource.next([...messages, message])
+      })
+    })
   }
 
   stopHubConnection() {
@@ -44,14 +51,21 @@ export class MessageService {
   }
 
   getMessageThread(username: string) {
-    return this.http.get<Message[]>(this.baseUrl + 'messages/thread/' + username, { headers:{ skip:"true" }});
+    return this.http.get<Message[]>(this.baseUrl + 'messages/thread/' + username);
   }
 
-  sendMessage(username: string, content: string) {
-    return this.http.post<Message>(this.baseUrl + 'messages', {recipientUsername: username, content}, { headers:{ skip:"true" }})
+  async sendMessage(username: string, content: string) {
+    try {
+      return this.hubConnection.invoke('SendMessage', {
+        recipientUsername: username,
+        content
+      });
+    } catch (error) {
+      return console.log(error);
+    }
   }
 
   deleteMessage(id: number) {
-    return this.http.delete(this.baseUrl + 'messages/' + id, { headers:{ skip:"true" }});
+    return this.http.delete(this.baseUrl + 'messages/' + id);
   }
 }
