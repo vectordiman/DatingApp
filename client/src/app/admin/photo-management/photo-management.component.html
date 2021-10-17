@@ -1,1 +1,11 @@
-<p style="margin-top: 30px">photo-management works!</p>
+<div class='row pt-2'>
+  <div class='col-sm-2' *ngFor='let photo of photos'>
+    <h4>{{photo.username | titlecase}}</h4>
+    <img src='{{photo.url}}' class='img-thumbnail p-1' alt='{{photo.username}}'>
+
+    <div class='text-center'>
+      <button class='btn btn-sm btn-outline-info mr-2' (click)='approvePhoto(photo.id)' style="margin-left: -40px"><i class="fa fa-check"></i></button>
+      <button class='btn btn-sm btn-primary' (click)='rejectPhoto(photo.id)'><i class="fa fa-ban"></i></button>
+    </div>
+  </div>
+</div>
