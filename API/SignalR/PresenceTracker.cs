@@ -32,7 +32,7 @@ namespace API.SignalR
             bool isOffline = false;
             lock (OnlineUsers)
             {
-                if (OnlineUsers.ContainsKey(username)) return Task.FromResult(isOffline);
+                if (!OnlineUsers.ContainsKey(username)) return Task.FromResult(isOffline);
                 
                 OnlineUsers[username].Remove(connectionId);
 
